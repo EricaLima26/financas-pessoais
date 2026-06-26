@@ -1,0 +1,14 @@
+[
+    {
+        "tipo": "receita",
+        "valor": 400.0,
+        "categoria": "alimentacao",
+        "descricao": "comida"
+    },
+    {
+        "tipo": "despesa",
+        "valor": 5000.0,
+        "categoria": "locomoção",
+        "descricao": "vrumvrum"
+    }
+]
