@@ -3,6 +3,17 @@ import os
 
 ARQUIVO = "Lancamento.json"
 
+def mostrar_menu():
+    print("=== MENU DE OPÇÕES ===")
+    print("1 - Registrar")
+    print("2 - Ver extratos")
+    print("3 - Relatório")
+    print("4 - Exportar")
+    print("5 - Sair")
+
+    escolha = input("Digite o número da opção desejada: ")
+    return escolha
+
 def carregar_lancamentos():
     if os.path.exists(ARQUIVO):
         with open(ARQUIVO, "r", encoding="utf-8") as f:
@@ -21,6 +32,7 @@ def registrar():
 
     while True:
         print("\n=== REGISTRAR ===")
+        data = input("Digite a data (dd/mm/aaaa): ").strip()
         tipo = input("Digite o tipo (receita/ despesa): ").strip().lower()
         if tipo not in ["receita", "despesa"]:
             print("Tipo inválido! Digite 'receita' ou 'despesa'.")
@@ -40,17 +52,36 @@ def registrar():
     descricao = input("Digite a descrição: ").strip()
 
     registro = {
+        "data": data,
         "tipo": tipo,
         "valor": valor,
         "categoria": categoria,
-        "descricao": descricao
+        "descricao": descricao,
     }
 
     lancamentos.append(registro)
     salvar_lancamentos(lancamentos)
 
-    print("Registro salvo com sucesso!")
+    print("\nRegistro salvo com sucesso!")
+    print()
 
-# Exemplo de uso
-if __name__ == "__main__":
-    registrar()
+def ver_extratos():
+    lancamentos = carregar_lancamentos()
+
+    if not lancamentos:
+        print("📭 Nenhum lançamento encontrado.")
+        return
+
+    print("\n=== EXTRATO DE LANÇAMENTOS ===")
+    for i, lanc in enumerate(lancamentos, start=1):
+        data = lanc.get("data", "N/A")
+        tipo = lanc.get("tipo", "N/A").capitalize()
+        categoria = lanc.get("categoria", "N/A")
+        descricao = lanc.get("descricao", "N/A")
+        valor = lanc.get("valor", 0.0)
+
+        print(f"{i}. {data} | {tipo} | {categoria} | {descricao} |  R$ {valor:,.2f}")
+    print()
+
+
+

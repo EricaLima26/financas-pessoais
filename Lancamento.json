@@ -1,14 +1,37 @@
 [
     {
+        "data": "2023/06/01",
         "tipo": "receita",
         "valor": 400.0,
         "categoria": "alimentacao",
         "descricao": "comida"
     },
     {
+        "data": "2026/12/30",
         "tipo": "despesa",
         "valor": 5000.0,
         "categoria": "locomoção",
         "descricao": "vrumvrum"
+    },
+    {
+        "data": "2016/04/26",
+        "tipo": "receita",
+        "valor": 731.9,
+        "categoria": "alimentação",
+        "descricao": "comidinha"
+    },
+    {
+        "data": "24/07/1979",
+        "tipo": "despesa",
+        "valor": 50000.0,
+        "categoria": "emprestimo",
+        "descricao": "casa"
+    },
+    {
+        "data": "07/01/2005",
+        "tipo": "despesa",
+        "valor": 121.45,
+        "categoria": "plano médico",
+        "descricao": "ai ai"
     }
 ]

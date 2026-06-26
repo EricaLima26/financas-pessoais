@@ -1,13 +1,12 @@
-import opcao
+from opcao import mostrar_menu
+from opcao import registrar
+from opcao import ver_extratos
 
-print("=== MENU DE OPÇÕES ===")
-print("1 - Registar")
-print("2 - Ver extratos")
-print("3 - Relatório")
-print("4 - Exportar")
-print("5 - Sair")
+while True:
+    escolha = mostrar_menu()
+        
+    if escolha == "1":
+        registrar()
+    elif escolha == "2":
+        ver_extratos()
 
-escolha = input("Digite o número da opção desejada: ")
-
-if escolha == "1":
-    opcao.registrar()
