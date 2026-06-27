@@ -1,5 +1,6 @@
 import json
 import os
+from collections import defaultdict
 
 ARQUIVO = "Lancamento.json"
 
@@ -8,7 +9,7 @@ def mostrar_menu():
     print("1 - Registrar")
     print("2 - Ver extratos")
     print("3 - Relatório")
-    print("4 - Exportar")
+    print("4 - Exportar relatório")
     print("5 - Sair")
 
     escolha = input("Digite o número da opção desejada: ")
@@ -33,7 +34,7 @@ def registrar():
     while True:
         print("\n=== REGISTRAR ===")
         data = input("Digite a data (dd/mm/aaaa): ").strip()
-        tipo = input("Digite o tipo (receita/ despesa): ").strip().lower()
+        tipo = input("Digite o tipo (receita/despesa): ").strip().lower()
         if tipo not in ["receita", "despesa"]:
             print("Tipo inválido! Digite 'receita' ou 'despesa'.")
             continue
@@ -69,7 +70,7 @@ def ver_extratos():
     lancamentos = carregar_lancamentos()
 
     if not lancamentos:
-        print("📭 Nenhum lançamento encontrado.")
+        print("Nenhum lançamento encontrado.")
         return
 
     print("\n=== EXTRATO DE LANÇAMENTOS ===")
@@ -82,6 +83,42 @@ def ver_extratos():
 
         print(f"{i}. {data} | {tipo} | {categoria} | {descricao} |  R$ {valor:,.2f}")
     print()
+    
+def relatorio():
+    lancamentos = carregar_lancamentos()
 
+    if not lancamentos:
+        texto = "Nenhum lançamento encontrado.\n"
+        print(texto)
+        return texto
 
+    total_receitas = sum(l["valor"] for l in lancamentos if l["tipo"] == "receita")
+    total_despesas = sum(l["valor"] for l in lancamentos if l["tipo"] == "despesa")
+    saldo = total_receitas - total_despesas
 
+    categorias = defaultdict(float)
+    for l in lancamentos:
+        if l["tipo"] == "receita":
+            categorias[l["categoria"]] += l["valor"]
+        else:
+            categorias[l["categoria"]] -= l["valor"]
+
+    relatorio_texto = []
+    relatorio_texto.append("=== RELATÓRIO FINANCEIRO ===")
+    relatorio_texto.append(f"Total de Receitas: R$ {total_receitas:,.2f}")
+    relatorio_texto.append(f"Total de Despesas: R$ {total_despesas:,.2f}")
+    relatorio_texto.append(f"Saldo Final: R$ {saldo:,.2f}")
+    relatorio_texto.append("\n=== Totais por Categoria ===")
+    for cat, valor in categorias.items():
+        relatorio_texto.append(f"- {cat}: R$ {valor:,.2f}")
+
+    texto = "\n".join(relatorio_texto)
+    print(texto)
+    return texto
+
+def exportar():
+    conteudo = relatorio()  
+    with open("relatorio.txt", "w", encoding="utf-8") as f:
+        f.write(conteudo)
+    print("Relatório exportado para 'relatorio.txt' com sucesso!")
+    print()
